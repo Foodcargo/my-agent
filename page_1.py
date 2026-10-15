@@ -8,8 +8,12 @@ import requests
 from langgraph.checkpoint.memory import InMemorySaver
 
 load_dotenv()
-memory = InMemorySaver()
 
+if "agent_memory" not in st.session_state:
+    st.session_state.agent_memory = InMemorySaver()
+
+if "thread_id" not in st.session_state:
+    st.session_state.thread_id = "user-1"
 model = init_chat_model("gpt-5.4-mini")
 
 @tool
@@ -51,7 +55,7 @@ tavily_tool = TavilySearch(
 
 )
 
-agent = create_agent(model, tools = [get_weather, tavily_tool])
+agent = create_agent(model, tools = [get_weather, tavily_tool],checkpointer=st.session_state.agent_memory)
 
 st.title("1 페이지 입니다.")
 
@@ -63,7 +67,8 @@ prompt = st.chat_input("무엇이든 물어보세요.")
 if prompt:
     # response = model.invoke(prompt)
     response = agent.invoke(
-        {"messages" : [{"role" : "user", "content" : prompt}]}
+        {"messages" : [{"role" : "user", "content" : prompt}]},
+        config={"configurable": {"thread_id": st.session_state.thread_id}}
     )
     st.session_state.messages.append({"role" : "user", "content" : prompt})
     st.session_state.messages.append({"role" : "ai", "content" : response['messages'][-1].content})
