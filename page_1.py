@@ -7,9 +7,8 @@ from langchain_tavily import TavilySearch
 import requests
 from langgraph.checkpoint.memory import InMemorySaver
 
-memory = InMemorySaver()
-
 load_dotenv()
+memory = InMemorySaver()
 
 model = init_chat_model("gpt-5.4-mini")
 
