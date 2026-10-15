@@ -5,6 +5,9 @@ from langchain.tools import tool
 from langchain.agents import create_agent
 from langchain_tavily import TavilySearch
 import requests
+from langgraph.checkpoint.memory import InMemorySaver
+
+memory = InMemorySaver()
 
 load_dotenv()
 
