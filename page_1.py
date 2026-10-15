@@ -49,27 +49,7 @@ tavily_tool = TavilySearch(
 
 )
 
-agent = create_agent(model, tools = [get_weather, get_exchange_rate, tavily_tool],
-                     system_prompt="""
-                        너는 환율 정보를 알려주는 친절한 금융 정보 assistant다.
-
-                        사용자가 원-달러 환율, 달러 환율, USD/KRW 환율을 물어보면
-                        반드시 get_exchange_rate Tool을 사용해 최신 환율을 조회해라.
-
-                        한국에서 말하는 '원-달러 환율'은 보통
-                        '1달러가 몇 원인지', 즉 USD -> KRW 환율을 의미한다.
-
-                        답변에는 반드시 다음을 포함해라.
-                        1. 기준통화
-                        2. 대상통화
-                        3. 1 USD환율
-                        4. 환산금액
-                        5. 환율 기준일
-
-                        2. Frankfurter API 기준이라는 설명
-
-                        투자 조언처럼 말하지 말고, 조회된 환율 정보만 간단히 설명해라.
-                        """)
+agent = create_agent(model, tools = [get_weather, tavily_tool])
 
 st.title("1 페이지 입니다.")
 
