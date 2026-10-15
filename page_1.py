@@ -51,7 +51,7 @@ tavily_tool = TavilySearch(
 
 )
 
-agent = create_agent(model, tools = [get_weather, tavily_tool], memory=memory)
+agent = create_agent(model, tools = [get_weather, tavily_tool])
 
 st.title("1 페이지 입니다.")
 
